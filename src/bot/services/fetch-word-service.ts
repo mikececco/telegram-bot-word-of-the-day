@@ -11,7 +11,7 @@ export async function fetchRSSFeed(
     const feed = await parser.parseURL('https://www.merriam-webster.com/wotd/feed/rss2')
     const latestItem = feed.items[0] // Get the latest item from the feed
 
-    if (latestItem.title) {
+    if (latestItem.title && latestItem.content) {
       // Do something with the latest item, such as logging its title and link
       console.log('Latest item title:', latestItem.title)
       console.log('Latest item link:', latestItem.link)
@@ -24,9 +24,7 @@ export async function fetchRSSFeed(
         parse_mode: 'Markdown',
       })
 
-      await ctx.reply('HTML comingg')
-
-      await ctx.replyWithHTML(latestItem.description)
+      await ctx.replyWithHTML(latestItem.content)
     }
 
     else {
