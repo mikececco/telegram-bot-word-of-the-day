@@ -16,6 +16,7 @@ export async function fetchRSSFeed(
       console.log('Latest item title:', latestItem.title)
       console.log('Latest item link:', latestItem.link)
       console.log('Latest item description:', latestItem.description)
+      console.log('Whole item :', latestItem)
 
       const formatted = `*${latestItem.title}* — **${latestItem.link}**`
 
