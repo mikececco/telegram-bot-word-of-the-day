@@ -15,7 +15,7 @@ export async function fetchRSSFeed(
       // Do something with the latest item, such as logging its title and link
       console.log('Latest item title:', latestItem.title)
       console.log('Latest item link:', latestItem.link)
-      console.log('Latest item summary:', latestItem.description)
+      console.log('Latest item summary:', latestItem.content)
       console.log('Keys of latest item:', Object.keys(latestItem))
 
       const formatted = `*${latestItem.title}* — **${latestItem.link}**`
