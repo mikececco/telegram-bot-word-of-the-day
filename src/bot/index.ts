@@ -21,19 +21,17 @@ import { i18n, isMultipleLocales } from '#root/bot/i18n.js'
 import { updateLogger } from '#root/bot/middlewares/index.js'
 import { config } from '#root/config.js'
 import { logger } from '#root/logger.js'
-import type { PrismaClientX } from '#root/prisma/index.js'
 
 interface Options {
-  prisma: PrismaClientX
   sessionStorage?: StorageAdapter<SessionData>
   config?: Omit<BotConfig<Context>, 'ContextConstructor'>
 }
 
-export function createBot(token: string, options: Options) {
-  const { sessionStorage, prisma } = options
+export function createBot(token: string, options: Options = {}) {
+  const { sessionStorage } = options
   const bot = new TelegramBot(token, {
     ...options.config,
-    ContextConstructor: createContextConstructor({ logger, prisma }),
+    ContextConstructor: createContextConstructor({ logger }),
   })
   const protectedBot = bot.errorBoundary(errorHandler)
 

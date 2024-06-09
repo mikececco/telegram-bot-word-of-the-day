@@ -50,44 +50,46 @@ Follow these steps to set up and run your bot using this template:
     ```bash
     npm install
     ```
-    Run migrations:
-    ```bash
-    npx prisma migrate dev
-    ```
     Start the bot in watch mode (auto-reload when code changes):
     ```bash
     npm run dev
     ```
 
-   **Production Mode:**
+    **Production Mode:**
 
-    Install only production dependencies (no development dependencies):
+    Install Vercel CLI:
     ```bash
-    npm install --only=prod
+    npm i -g vercel
     ```
 
-    Set `NODE_ENV` environment variable to `production` in your `.env` file. <br />
-    Update `BOT_WEBHOOK` with the actual URL where your bot will receive updates. <br />
-    Update `BOT_WEBHOOK_SECRET` with a random secret token. <br />
-    Update `DATABASE_URL` with a production database.
-
-    ```dotenv
-    NODE_ENV=production
-    BOT_WEBHOOK=<server_url>/webhook
-    BOT_WEBHOOK_SECRET=<random_secret_value>
-    DATABASE_URL=<production_db_url>
+    Create a project:
+    ```bash
+    vercel link
     ```
 
-    Run migrations:
+    Set `NODEJS_HELPERS` environment variable to `0`:
     ```bash
-    npx prisma migrate deploy
+    vercel env add NODEJS_HELPERS
     ```
 
-    Start the bot in production mode:
+    Set `BOT_TOKEN` environment variable:
     ```bash
-    npm start # with type checking (requires development dependencies)
-    # or
-    npm run start:force # skip type checking and start
+    vercel env add BOT_TOKEN --sensitive
+    ```
+
+    Set `BOT_WEBHOOK_SECRET` environment variable to a random secret token:
+    ```bash
+    vercel env add BOT_WEBHOOK_SECRET --sensitive
+    ```
+
+    Deploy your bot:
+    ```bash
+    vercel
+    ```
+
+    After successful deployment, set up a webhook to connect your Vercel app with Telegram, modify the below URL to your credentials and visit it from your browser:
+    ```
+    https://APP_NAME.vercel.app/BOT_TOKEN
     ```
 
 ### List of Available Commands
@@ -325,15 +327,6 @@ bun add -d @types/bun
         Telegram Bot API token obtained from <a href="https://t.me/BotFather">@BotFather</a>.
     </td>
   </tr>
-  <tr>
-    <td>DATABASE_URL</td>
-    <td>
-        String
-    </td>
-    <td>
-        Database connection.
-    </td>
-  </tr>
     <tr>
     <td>LOG_LEVEL</td>
     <td>
@@ -355,16 +348,6 @@ bun add -d @types/bun
         <i>Optional.</i>
         Specifies method to receive incoming updates (<code>polling</code> or <code>webhook</code>).<br/>
         Default depends on <code>NODE_ENV</code> (<code>polling</code> for <code>development</code>, <code>webhook</code> for <code>production</code>).
-    </td>
-  </tr>
-  <tr>
-    <td>BOT_WEBHOOK</td>
-    <td>
-        String
-    </td>
-    <td>
-        <i>Optional in <code>polling</code> mode.</i>
-        Webhook endpoint URL, used to configure webhook.
     </td>
   </tr>
   <tr>
