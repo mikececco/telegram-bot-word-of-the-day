@@ -16,7 +16,11 @@ export async function fetchRSSFeed(
       console.log('Latest item title:', latestItem.title)
       console.log('Latest item link:', latestItem.link)
 
-      return ctx.reply(latestItem.title)
+      const formatted = `*${latestItem.title}* — **${latestItem.link} _${latestItem.description}_**`
+
+      return ctx.reply(formatted, {
+        parse_mode: 'Markdown',
+      })
     }
 
     else {
