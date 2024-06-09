@@ -22,7 +22,7 @@ export async function fetchRSSFeed(
         parse_mode: 'Markdown',
       })
 
-      return ctx.reply(latestItem.description, {
+      await ctx.reply(latestItem.description, {
         parse_mode: 'HTML',
       })
     }
