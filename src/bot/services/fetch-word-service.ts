@@ -1,4 +1,5 @@
 import Parser from 'rss-parser'
+import cheerio from 'cheerio'
 // import { findOrCreateRss } from '#root/prisma/find-or-create-rss.js'
 import type { Context } from '#root/bot/context.js'
 
@@ -18,13 +19,19 @@ export async function fetchRSSFeed(
       console.log('Latest item summary:', latestItem.content)
       console.log('Keys of latest item:', Object.keys(latestItem))
 
+      // Load the HTML content into cheerio
+      const $ = cheerio.load(latestItem.description)
+
+      // Get the text content without HTML tags
+      const sanitizedDescription = $.text()
+
       const formatted = `*${latestItem.title}* — **${latestItem.link}**`
 
       await ctx.reply(formatted, {
         parse_mode: 'Markdown',
       })
 
-      await ctx.replyWithHTML(latestItem.content)
+      await ctx.replyWithHTML(sanitizedDescription)
     }
 
     else {
