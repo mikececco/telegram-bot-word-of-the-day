@@ -20,7 +20,7 @@ export async function fetchRSSFeed(
       console.log('Keys of latest item:', Object.keys(latestItem))
 
       // Load the HTML content into cheerio
-      const $ = cheerio.load(latestItem.description)
+      const $ = cheerio.load(latestItem.content)
 
       // Get the text content without HTML tags
       const sanitizedDescription = $.text()
