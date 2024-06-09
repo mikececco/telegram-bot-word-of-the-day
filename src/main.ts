@@ -56,7 +56,7 @@ async function startWebhook() {
   // to prevent receiving updates before the bot is ready
   await bot.init()
 
-  cron.schedule('1 * * * *', async () => {
+  cron.schedule('* * * * *', async () => {
     try {
       await bot.api.sendMessage(352550606, 'Hi!')
     }
