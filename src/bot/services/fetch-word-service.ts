@@ -15,6 +15,7 @@ export async function fetchRSSFeed(
       // Do something with the latest item, such as logging its title and link
       console.log('Latest item title:', latestItem.title)
       console.log('Latest item link:', latestItem.link)
+      console.log('Latest item description:', latestItem.description)
 
       const formatted = `*${latestItem.title}* — **${latestItem.link}**`
 
@@ -22,9 +23,9 @@ export async function fetchRSSFeed(
         parse_mode: 'Markdown',
       })
 
-      await ctx.reply(latestItem.description, {
-        parse_mode: 'HTML',
-      })
+      await ctx.reply('HTML comingg')
+
+      await ctx.replyWithHTML(latestItem.description)
     }
 
     else {
