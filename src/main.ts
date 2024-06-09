@@ -5,6 +5,7 @@ import { createBot } from '#root/bot/index.js'
 import { config } from '#root/config.js'
 import { logger } from '#root/logger.js'
 import { createServer, createServerManager } from '#root/server/index.js'
+import { prisma } from '#root/prisma/index.js'
 
 function onShutdown(cleanUp: () => Promise<void>) {
   let isShuttingDown = false
@@ -20,8 +21,9 @@ function onShutdown(cleanUp: () => Promise<void>) {
 }
 
 async function startPolling() {
-  const bot = createBot(config.BOT_TOKEN)
-
+  const bot = createBot(config.BOT_TOKEN, {
+    prisma,
+  })
   // graceful shutdown
   onShutdown(async () => {
     await bot.stop()
@@ -39,7 +41,9 @@ async function startPolling() {
 }
 
 async function startWebhook() {
-  const bot = createBot(config.BOT_TOKEN)
+  const bot = createBot(config.BOT_TOKEN, {
+    prisma,
+  })
   const server = createServer(bot)
   const serverManager = createServerManager(server)
 
