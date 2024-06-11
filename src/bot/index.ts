@@ -13,6 +13,7 @@ import {
 } from '#root/bot/context.js'
 import {
   adminFeature,
+  anyFeature,
   languageFeature,
   unhandledFeature,
   welcomeFeature,
@@ -56,6 +57,7 @@ export function createBot(token: string, options: Options) {
 
   // Handlers
   protectedBot.use(welcomeFeature)
+  protectedBot.use(anyFeature)
   protectedBot.use(adminFeature)
 
   if (isMultipleLocales)

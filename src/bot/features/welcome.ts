@@ -22,6 +22,13 @@ feature.command('start', logHandle('command-start'), async (ctx) => {
     console.error('Error creating user:', error)
   }
 
+  // if (condition) {
+  //   ctx.reply(
+  //     "*Hi\\!* _Welcome_ to [grammY](https://grammy.dev)\\.",
+  //     { parse_mode: "MarkdownV2" },
+  //   )
+  // }
+
   return ctx.reply(ctx.t('welcome'), {
     reply_markup: startKeyboard,
   })
