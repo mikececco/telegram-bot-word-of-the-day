@@ -1,10 +1,16 @@
 import { Composer } from 'grammy'
+import { AssemblyAI } from 'assemblyai'
 import type { Context } from '#root/bot/context.js'
 import { logHandle } from '#root/bot/helpers/logging.js'
+import { config as configuration } from '#root/config.js'
 
 const composer = new Composer<Context>()
 
 const feature = composer.chatType('private')
+
+const client = new AssemblyAI({
+  apiKey: configuration.ASSEMBLY_AI,
+})
 
 feature.on('message', logHandle('command-any'), async (ctx) => {
   if (ctx.message.photo) {
@@ -14,7 +20,25 @@ feature.on('message', logHandle('command-any'), async (ctx) => {
     ctx.reply('You sent an animation.')
   }
   else if (ctx.message.audio) {
-    ctx.reply('You sent an audio file.')
+    const file = await ctx.getFile() // valid for at least 1 hour
+    const path = file.file_path // file path on Bot API server
+
+    if (path) {
+      const config = {
+        audio_url: path,
+      }
+
+      const transcript = await client.transcripts.transcribe(config)
+
+      console.log(transcript.text)
+      if (transcript.text) {
+        return ctx.reply(transcript.text)
+      }
+      return (ctx.reply('Empty'))
+    }
+    else {
+      console.error('audio_url is undefined')
+    }
   }
   else if (ctx.message.document) {
     ctx.reply('You sent a document.')
