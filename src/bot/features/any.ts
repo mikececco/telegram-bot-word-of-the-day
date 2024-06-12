@@ -1,15 +1,14 @@
-import { Composer } from 'grammy'
 import { AssemblyAI } from 'assemblyai'
+import { Composer } from 'grammy'
+import { config } from '#root/config.js'
 import type { Context } from '#root/bot/context.js'
 import { logHandle } from '#root/bot/helpers/logging.js'
-import { config as configuration } from '#root/config.js'
 
 const composer = new Composer<Context>()
 
 const feature = composer.chatType('private')
-
 const client = new AssemblyAI({
-  apiKey: configuration.ASSEMBLY_AI,
+  apiKey: config.ASSEMBLY_AI,
 })
 
 feature.on('message', logHandle('command-any'), async (ctx) => {
@@ -20,6 +19,18 @@ feature.on('message', logHandle('command-any'), async (ctx) => {
     ctx.reply('You sent an animation.')
   }
   else if (ctx.message.audio) {
+    ctx.reply('You sent an audio file.')
+  }
+  else if (ctx.message.document) {
+    ctx.reply('You sent a document.')
+  }
+  else if (ctx.message.video) {
+    ctx.reply('You sent a video.')
+  }
+  else if (ctx.message.video_note) {
+    ctx.reply('You sent a video note.')
+  }
+  else if (ctx.message.voice) {
     ctx.reply('Audio received.')
     ctx.chatAction = 'typing'
     const file = await ctx.getFile() // valid for at least 1 hour
@@ -41,17 +52,6 @@ feature.on('message', logHandle('command-any'), async (ctx) => {
     else {
       console.error('audio_url is undefined')
     }
-  }
-  else if (ctx.message.document) {
-    ctx.reply('You sent a document.')
-  }
-  else if (ctx.message.video) {
-    ctx.reply('You sent a video.')
-  }
-  else if (ctx.message.video_note) {
-    ctx.reply('You sent a video note.')
-  }
-  else if (ctx.message.voice) {
     // const voice = ctx.msg.voice
 
     // const duration = voice.duration // in seconds
