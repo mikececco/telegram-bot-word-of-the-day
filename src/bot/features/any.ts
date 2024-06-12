@@ -20,6 +20,8 @@ feature.on('message', logHandle('command-any'), async (ctx) => {
     ctx.reply('You sent an animation.')
   }
   else if (ctx.message.audio) {
+    ctx.reply('Audio received.')
+    ctx.chatAction = 'typing'
     const file = await ctx.getFile() // valid for at least 1 hour
     const path = file.file_path // file path on Bot API server
 
