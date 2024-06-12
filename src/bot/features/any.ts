@@ -7,6 +7,7 @@ import { logHandle } from '#root/bot/helpers/logging.js'
 const composer = new Composer<Context>()
 
 const feature = composer.chatType('private')
+
 const client = new AssemblyAI({
   apiKey: config.ASSEMBLY_AI,
 })
