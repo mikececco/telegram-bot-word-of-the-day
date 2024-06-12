@@ -48,6 +48,7 @@ feature.on('message', logHandle('command-any'), async (ctx) => {
       if (transcript.text) {
         return ctx.reply(transcript.text)
       }
+      console.log('hello')
       return (ctx.reply('Empty'))
     }
     else {
