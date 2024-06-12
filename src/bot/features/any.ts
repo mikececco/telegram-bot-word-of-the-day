@@ -1,10 +1,16 @@
+import { AssemblyAI } from 'assemblyai'
 import { Composer } from 'grammy'
+import { config } from '#root/config.js'
 import type { Context } from '#root/bot/context.js'
 import { logHandle } from '#root/bot/helpers/logging.js'
 
 const composer = new Composer<Context>()
 
 const feature = composer.chatType('private')
+
+const client = new AssemblyAI({
+  apiKey: config.ASSEMBLY_AI,
+})
 
 feature.on('message', logHandle('command-any'), async (ctx) => {
   if (ctx.message.photo) {
@@ -26,19 +32,24 @@ feature.on('message', logHandle('command-any'), async (ctx) => {
     ctx.reply('You sent a video note.')
   }
   else if (ctx.message.voice) {
-    // const voice = ctx.msg.voice
+    ctx.reply('Audio received.')
+    ctx.chatAction = 'typing'
+    const file = await ctx.getFile() // valid for at least 1 hour
+    const path = file.file_path // file path on Bot API server
 
-    // const duration = voice.duration // in seconds
-    // await ctx.reply(`Your voice message is ${duration} seconds long.`)
+    if (path) {
+      const transcript = await client.transcripts.transcribe({ audio_url: path })
 
-    // const fileId = voice.file_id
-    // await ctx.reply("The file identifier of your voice message is: " + fileId)
-
-    // const file = await ctx.getFile() // valid for at least 1 hour
-    // const path = file.file_path // file path on Bot API server
-    // await ctx.reply("Download your own file again: " + path)
-
-    ctx.reply('You sent a voice message.')
+      console.log(transcript.text)
+      if (transcript.text) {
+        return ctx.reply(transcript.text)
+      }
+      console.log('hello')
+      return ctx.reply('Empty')
+    }
+    else {
+      console.error('audio_url is undefined')
+    }
   }
   else if (ctx.message.sticker) {
     ctx.reply('You sent a sticker.')
