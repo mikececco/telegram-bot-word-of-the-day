@@ -7,13 +7,15 @@ const bot = createBot(configuration.BOT_TOKEN, {
   prisma,
 })
 
-// Ensure bot instance is available and properly configured
-cron.schedule('* * * * *', async () => {
-  try {
-    await bot.api.sendMessage(12345, 'Hi!')
-  }
+console.log(bot)
 
-  catch (error) {
-    console.error('Error sending message:', error)
-  }
-})
+// Ensure bot instance is available and properly configured
+// cron.schedule('* * * * *', async () => {
+//   try {
+//     await bot.api.sendMessage(12345, 'Hi!')
+//   }
+
+//   catch (error) {
+//     console.error('Error sending message:', error)
+//   }
+// })
