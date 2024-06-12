@@ -7,3 +7,4 @@ const bot = createBot(configuration.BOT_TOKEN, {
 })
 
 console.log(bot)
+console.log('helo')
