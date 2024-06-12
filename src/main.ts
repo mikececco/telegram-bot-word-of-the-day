@@ -1,7 +1,6 @@
 #!/usr/bin/env tsx
 
 import process from 'node:process'
-// import cron from 'node-cron'
 import { createBot } from '#root/bot/index.js'
 import { config } from '#root/config.js'
 import { logger } from '#root/logger.js'
@@ -55,24 +54,6 @@ async function startWebhook() {
 
   // to prevent receiving updates before the bot is ready
   await bot.init()
-
-  // const cronList = []
-  // cronList.push(cron.schedule('* * * * * *', async () => {
-  //   await bot.api.sendMessage(352550606, 'Hi!')
-  // }))
-
-  // cronList.forEach(cron => cron.stop())
-
-  // const task = cron.schedule('* * * * *', async () => {
-  //   try {
-  //     await bot.api.sendMessage(352550606, 'Hi!')
-  //   }
-
-  //   catch (error) {
-  //     console.error('Error sending message:', error)
-  //   }
-  // })
-  // task.stop()
 
   // start server
   const info = await serverManager.start(
