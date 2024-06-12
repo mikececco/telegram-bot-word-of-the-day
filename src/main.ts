@@ -56,15 +56,16 @@ async function startWebhook() {
   // to prevent receiving updates before the bot is ready
   await bot.init()
 
-  // cron.schedule('* * * * *', async () => {
-  //   try {
-  //     await bot.api.sendMessage(352550606, 'Hi!')
-  //   }
+  const task = cron.schedule('* * * * *', async () => {
+    try {
+      await bot.api.sendMessage(352550606, 'Hi!')
+    }
 
-  //   catch (error) {
-  //     console.error('Error sending message:', error)
-  //   }
-  // })
+    catch (error) {
+      console.error('Error sending message:', error)
+    }
+  })
+  task.stop()
 
   // start server
   const info = await serverManager.start(
